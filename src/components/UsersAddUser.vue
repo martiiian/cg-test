@@ -16,8 +16,17 @@ export default {
     ]),
 
     addUser(e) {
-      const result = this.ADD_USER(new FormData(e.target))
-      result && this.$refs.form.reset()
+      const userData = new FormData(e.target)
+      if (this.checkExist(userData)) {
+        alert('с таким id уже существует, ахтунг')
+      } else {
+        this.ADD_USER(userData)
+        this.$refs.form.reset()
+      }
+    },
+
+    checkExist(user) {
+      return this.$store.state.users.some(u => u.id === +user.get('id'))
     }
   }
 }
